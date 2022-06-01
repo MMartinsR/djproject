@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="file.css" />
+	<title>Treinamento JSF e Primefaces</title>
+</h:head>
+<h:body>
+
+	<header>
+		<div style="float: left; margin-left: 10px">
+			<h:graphicImage library="imagens" name="header-blue.png" width="1850" height="80"/>
+		</div>
+		<div style="float: right;">
+			<h:graphicImage library="imagens" name="logo.png" width="80"/>
+		</div>	
+	</header>
+	
+	<h1>Campos de entrada de texto</h1>
+	
+	<p:messages autoUpdate="true" id="msg" />
+	
+	<h:form id="form">
+	
+			<p:toolbar>
+				<f:facet name="left">
+					<p:button value="Novo" class="pi pi-check"/>
+					<p:button value="Abrir" icon="pi-folder-open"/>
+					
+					<i class="pi-minus">
+					</i>
+					
+					<p:button icon="pi-save"/>
+					<p:button icon="ui-icon-trash"/>
+					<p:button icon="ui-icon-print "/>
+					
+				</f:facet>
+				<f:facet name="right">
+				
+				</f:facet>
+			
+			</p:toolbar>
+
+			<p:outputLabel value="Nome" for="nome"/>
+			<p:inputText id="nome" required="true" 
+			requiredMessage="Nome é obrigatório" 
+			maxlength="10" size="30"
+			placeholder="Insira o nome aqui"
+			title="O mouse está sobre o componente"
+			disabled="true"/>
+			
+			<br/><br/>
+			
+			<p:outputLabel value="Senha" for="senha"/>
+			<p:password id="senha" feedback="true" weakLabel="Muito fraca"
+			goodLabel="Razoável" strongLabel="Muito forte" inline="true"
+			promptLabel="Informe uma senha" match="confirma" required="true" 
+			requiredMessage="A senha é obrigatória"
+			validatorMessage="A senha e a confirmação estão diferentes"/>
+			
+			<br/><br/>
+			
+			<p:outputLabel value="Confirme a senha" for="confirma"/>
+			<p:password id="confirma" required="true"/>
+			
+			<h1>Area de Texto</h1>
+			<p:inputTextarea rows="6" style="width: 20%" maxlength="10"  placeholder="Descrição"
+			counter="saida" counterTemplate="{0} caracteres restante(s)"/>
+			
+			<br/>
+			
+			<p:outputLabel id="saida"/>
+		
+		<br/>
+		
+		<p:commandButton value="Cadastrar senha" icon="ui-icon-disk" update="msg"/>
+		
+	</h:form>
+	
+</h:body>
+</html>

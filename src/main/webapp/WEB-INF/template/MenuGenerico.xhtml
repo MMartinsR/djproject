@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Treinamento JSF e Primefaces</title>
+</h:head>
+<h:body>
+	<header>
+		<div style="float: left; margin-left: 10px">
+			<h:graphicImage library="imagens" name="header-blue.png" width="1850"
+				height="50" />
+		</div>
+		<div style="float: right;">
+			<h:graphicImage library="imagens" name="logo.png" width="80" />
+		</div>
+		<p:confirmDialog global="true">
+			<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"
+				icon="pi pi-check" />
+			<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+				icon="pi pi-circle-off" />
+		</p:confirmDialog>
+
+		
+	</header>
+	
+
+	<ui:insert name="corpo"/>
+	
+	<footer> <h2> Rodapé da página ======================================================== </h2></footer>
+
+
+</h:body>
+</html>
