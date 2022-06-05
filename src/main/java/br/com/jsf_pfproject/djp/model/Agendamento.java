@@ -1,31 +1,61 @@
 package br.com.jsf_pfproject.djp.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+/**
+ * Classe modelo de Agendamento
+ * 
+ * @author Mariana Martins
+ *
+ */
+
+/**
+ * NamedQuery Agendamento.obterAgendamento
+ * Esta NamedQuery é responsável por buscar no banco uma possível 
+ * data de agendamento e id de professor, iguais aos que estão sendo passados ao modelo
+ * para evitar que sejam inseridos em banco novos agendamentos com um mesmo professor em uma mesma data e hora já existente.
+ */
 @Entity
 @Table(name = "tb_agendamento")
-public class Agendamento implements Serializable, Base{
+@NamedQueries({
+    @NamedQuery(name = "Agendamento.obterAgendamento",
+            query = "select A from Agendamento A " +
+                    " where A.dataAgendamento = :data and "
+                    + "A.professor.id = :idProfessor")
+    }
+)
+public class Agendamento implements Serializable, Base {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String assunto;
-	private String dataAgendamento;
+	private Date dataAgendamento;
 	private String observacoes;
-	
+
+	// Relações muitos para um entre agendamento e professor/aluno
+	@ManyToOne
+	@JoinColumn(name = "professor_id")
 	private Professor professor;
+
+	@ManyToOne
+	@JoinColumn(name = "aluno_id")
 	private Aluno aluno;
 
-	
 	public Long getId() {
 		return id;
 	}
@@ -42,11 +72,11 @@ public class Agendamento implements Serializable, Base{
 		this.assunto = assunto;
 	}
 
-	public String getDataAgendamento() {
+	public Date getDataAgendamento() {
 		return dataAgendamento;
 	}
 
-	public void setDataAgendamento(String dataAgendamento) {
+	public void setDataAgendamento(Date dataAgendamento) {
 		this.dataAgendamento = dataAgendamento;
 	}
 
@@ -90,9 +120,5 @@ public class Agendamento implements Serializable, Base{
 		Agendamento other = (Agendamento) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
-	
 
 }

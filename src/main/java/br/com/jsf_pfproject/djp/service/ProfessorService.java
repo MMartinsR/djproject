@@ -6,8 +6,17 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.jsf_pfproject.djp.dao.DAO;
+import br.com.jsf_pfproject.djp.exception.ProfessorException;
 import br.com.jsf_pfproject.djp.model.Professor;
+import br.com.jsf_pfproject.djp.utility.ValidationUtil;
 
+/**
+ *  Classe de serviço Professor
+ *  Responsável pela intermediação entre o controlador da view e a classe DAO de gerenciamento de banco de dados.
+ *  
+ * @author Mariana Martins
+ *
+ */
 public class ProfessorService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,20 +24,31 @@ public class ProfessorService implements Serializable {
 	@Inject
 	private DAO<Professor> profDao;
 
-	public void salvar(Professor p) {
+	public void salvar(Professor professor) {
 
-		// aplicar condições de validação de campo aqui (ex if (lalala)
 
-		profDao.salvarAtualizar(p);
+		if(!ValidationUtil.dataNascimentoValida
+				(professor.getDataNascimento())) {
+			
+			throw new ProfessorException("Data de nascimento inválida");
+
+		}
+		
+		profDao.salvarAtualizar(professor);
 
 	}
 
-	public void remover(Professor p) {
-		profDao.remover(Professor.class, p.getId());
+	public void remover(Professor professor) {
+		profDao.remover(Professor.class, professor.getId());
 	}
 
 	public List<Professor> listarTodos() {
-		return profDao.buscarTodos("select p from Professor p order by p.nome");
+		return profDao.buscarTodos(Professor.class);
+	}
+	
+	public Professor buscarPorId(Professor professor) {
+		
+		return profDao.buscarPorId(Professor.class, professor.getId());
 	}
 
 }

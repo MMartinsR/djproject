@@ -3,6 +3,14 @@ package br.com.jsf_pfproject.djp.utility;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+/**
+ *  Classe de mensagens personalizadas pra a view
+ *  
+ *  Responsável por gerar as mensagens que são apresentadas nos documentos xhtml.
+ *  
+ * @author Mariana Martins
+ *
+ */
 public class Message {
 
 	public static void info(String msg) {

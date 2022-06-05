@@ -1,7 +1,6 @@
 package br.com.jsf_pfproject.djp.converter;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -11,7 +10,7 @@ import javax.faces.convert.FacesConverter;
 import br.com.jsf_pfproject.djp.model.Professor;
 import br.com.jsf_pfproject.djp.service.ProfessorService;
 
-@FacesConverter(value = "professorConverter")
+@FacesConverter("profConv")
 public class ProfessorConverter implements Converter, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,12 +24,12 @@ public class ProfessorConverter implements Converter, Serializable {
 			return null;
 		}
 		// consulta no banco de dados os dados
-		List<Professor> profList = service.listarTodos();
-//		
-//		Professor professor = new Professor();
-//		professor.setId(Long.parseLong(id));
+
+		Professor professor = new Professor();
+		professor.setId(Long.parseLong(id));
 //		int index = profList.indexOf(professor);
-		return profList.get(Integer.parseInt(id)) ;  // retorno do dado do banco como objeto 
+		//return profList.get(Integer.parseInt(id)) ;  // retorno do dado do banco como objeto
+		return service.buscarPorId(professor);
 	}
 
 	@Override

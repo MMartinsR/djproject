@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="file.css" />
+	<title>Cadastro de Professor</title>
+</h:head>
+<h:body>
+
+	<header>
+		<div style="float: right;">
+			<h:graphicImage library="imagens" name="logo.png" width="80" />
+		</div>
+		
+		<div style="float: left;">
+			<h:panelGrid id="panelButton">
+				<p:button icon="pi pi-arrow-circle-left" outcome="Agendamentos.xhtml"/>
+			</h:panelGrid>
+		</div>
+	</header>
+
+	<h:form id="formProfessores">
+		<div style="width: 450px; margin: 1% auto 1% auto;">
+			<p:messages autoUpdate="true" closable="true" />
+			<p:panel header="Cadastro de Professor">
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel value="Nome" for="nome" />
+					<p:inputText maxlength="30" size="20" id="nome"
+						value="#{professorBean.professor.nome}" required="true"
+						requiredMessage="Informe o nome" label="Nome"
+						placeholder="Insira o nome do docente"
+						validatorMessage="O nome deve ter pelo menos 3 caracteres">
+						<f:validateLength minimum="3" />
+					</p:inputText>
+
+
+					<p:outputLabel value="Data de Nascimento" for="dataNascimento" />
+					<p:inputMask mask="99/99/9999" size="10" maxlength="10"
+						value="#{professorBean.professor.dataNascimento}" required="true"
+						label="Data de Nascimento" id="dataNascimento"
+						requiredMessage="Informe a data de nascimento" validatorMessage="Esta data é inválida">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+					</p:inputMask>
+
+					<p:outputLabel value="Email " for="email" />
+					<p:inputText label="Email" required="true" id="email"
+						requiredMessage="Informe o e-mail"
+						value="#{professorBean.professor.email}" size="30" maxlength="50"
+						placeholder="exemplo@email.com" validatorMessage="Informe um e-mail válido">
+						<f:validateRegex
+							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					</p:inputText>
+
+
+					<p:outputLabel value="Matéria" for="materia" />
+					<p:inputText label="Materia" required="true"
+						value="#{professorBean.professor.materia}" size="20"
+						placeholder="ex: Português" maxlength="30"
+						requiredMessage="Informe a materia" id="materia" />
+
+					<p:outputLabel />
+
+					<p:commandButton value="Cadastrar" icon="pi pi-save"
+						action="#{professorBean.novoProfessor}" update="formProfessores" />
+				</h:panelGrid>
+			</p:panel>
+		</div>
+
+		<p:dataTable value="#{professorBean.professores}" var="professor"
+			id="tabela" paginator="true" rows="5" style="margin-top: 10px">
+			<p:column headerText="Nome">
+				<p:outputLabel value="#{professor.nome}" />
+			</p:column>
+
+			<p:column headerText="Data de Nascimento" width="200">
+				<p:outputLabel value="#{professor.dataNascimento}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="E-mail" width="200">
+				<p:outputLabel value="#{professor.email}" />
+			</p:column>
+
+			<p:column headerText="Matéria" width="200">
+				<p:outputLabel value="#{professor.materia}" />
+			</p:column>
+
+			<p:column headerText="" width="100">
+				<p:commandButton icon="pi pi-pencil" update="@form" process="@this">
+					<f:setPropertyActionListener value="#{professor}"
+						target="#{professorBean.professor}" />
+				</p:commandButton>
+				<p:commandButton action="#{professorBean.excluirProfessor}"
+					icon="pi pi-trash" update="tabela formProfessores" process="@this">
+					<f:setPropertyActionListener value="#{professor}"
+						target="#{professorBean.professor}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+
+</h:body>
+</html>

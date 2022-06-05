@@ -5,31 +5,75 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import br.com.jsf_pfproject.djp.dao.AgendamentoDAO;
 import br.com.jsf_pfproject.djp.dao.DAO;
+import br.com.jsf_pfproject.djp.exception.AgendamentoException;
 import br.com.jsf_pfproject.djp.model.Agendamento;
+import br.com.jsf_pfproject.djp.utility.ValidationUtil;
 
-public class AgendamentoService implements Serializable{
-	
+/**
+ * Classe de serviço Agendamento Responsável pela intermediação entre o
+ * controlador da view e a classe DAO de gerenciamento de banco de dados.
+ * 
+ * @author Mariana Martins
+ *
+ */
+public class AgendamentoService implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private DAO<Agendamento> ageDao;
+	private DAO<Agendamento> agendamentoDao;
+	@Inject
+	private AgendamentoDAO agendamentoDAO;
 
-	public void salvar(Agendamento ag) {
+	public void salvar(Agendamento agendamento) {
 
-		// aplicar condições de validação de campo aqui (ex if (lalala)
+		if (!ValidationUtil.dataAgendamentoValida(agendamento.getDataAgendamento())) {
+			throw new AgendamentoException("Não é possível agendar para uma data e hora anterior a atual");
+		}
+		
+		// Valida se o agendamento passado por parâmetro é nulo, se for é um novo agendamento
+		if (agendamento.getId() != null) {
+			
+			// Se não for um novo agendamento, busco por id este agendamento no banco (update)
+			Agendamento agendamentoTemp = agendamentoDao.buscarPorId(Agendamento.class, agendamento.getId());
+			
+			// Valido se data ou professor desse update foram alterados, se sim, valido se esta data ou professor já possuem
+			// agendamentos vinculados a eles
+			if (!agendamentoTemp.getDataAgendamento().equals(agendamento.getDataAgendamento())
+					|| !agendamentoTemp.getProfessor().getId().equals(agendamento.getProfessor().getId())) {
+				
+				validaDataDuplicada(agendamento);
+			}
+			
+		} else {
+			validaDataDuplicada(agendamento);
+		}
 
-		ageDao.salvarAtualizar(ag);
+		agendamentoDao.salvarAtualizar(agendamento);
 
 	}
 
-	public void remover(Agendamento ag) {
-		ageDao.remover(Agendamento.class, ag.getId());
+	public void remover(Agendamento agendamento) {
+		agendamentoDao.remover(Agendamento.class, agendamento.getId());
 	}
 
 	public List<Agendamento> listarTodos() {
-		return ageDao.buscarTodos("select ag from Agendamento ag order by ag.nome");
+		return agendamentoDao.buscarTodos(Agendamento.class);
 	}
 
-
+	// 
+	/**
+	 * Validação da existência de um agendamento com os mesmos parâmetros data/hora,
+	 * professor.
+	 * 
+	 * @param agendamento
+	 */
+	private void validaDataDuplicada(Agendamento agendamento) {
+		if (agendamentoDAO.existeObjeto(agendamento.getDataAgendamento(), agendamento.getProfessor().getId())) {
+			
+			throw new AgendamentoException("O professor já possui agendamento para esta data e hora");
+		}
+	}
 }
