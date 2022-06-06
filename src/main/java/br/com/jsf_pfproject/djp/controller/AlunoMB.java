@@ -8,7 +8,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.jsf_pfproject.djp.exception.AlunoException;
+import br.com.jsf_pfproject.djp.exception.ValidationException;
+import br.com.jsf_pfproject.djp.exception.RemoverException;
 import br.com.jsf_pfproject.djp.model.Aluno;
 import br.com.jsf_pfproject.djp.service.AlunoService;
 import br.com.jsf_pfproject.djp.utility.Message;
@@ -88,10 +89,10 @@ public class AlunoMB implements Serializable {
 			limparFormulario();
 			carregar();
 
-			Message.info("Novo aluno salvo com sucesso");
+			Message.info("Aluno salvo com sucesso");
 
-		} catch (AlunoException e) {
-			Message.erro(e.getMessage());
+		} catch (ValidationException ev) {
+			Message.erro(ev.getMessage());
 		}
 	}
 
@@ -125,9 +126,12 @@ public class AlunoMB implements Serializable {
 
 			Message.info("Aluno removido com sucesso");
 
-		} catch (AlunoException e) {
-
-			Message.erro(e.getMessage());
+		} catch (RemoverException er) {
+			Message.erro(er.getMessage());
+			
+		}catch (ValidationException ev) {
+			Message.erro(ev.getMessage());
+			
 		}finally {
 			limparFormulario();
 		}

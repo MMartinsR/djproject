@@ -8,7 +8,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.jsf_pfproject.djp.exception.ProfessorException;
+import br.com.jsf_pfproject.djp.exception.RemoverException;
+import br.com.jsf_pfproject.djp.exception.ValidationException;
 import br.com.jsf_pfproject.djp.model.Professor;
 import br.com.jsf_pfproject.djp.service.ProfessorService;
 import br.com.jsf_pfproject.djp.utility.Message;
@@ -87,10 +88,10 @@ public class ProfessorMB implements Serializable {
 			limparFormulario();
 			carregar();
 
-			Message.info("Novo professor salvo com sucesso");
+			Message.info("Professor salvo com sucesso");
 
-		} catch (ProfessorException e) {
-			Message.erro(e.getMessage());
+		} catch (ValidationException ev) {
+			Message.erro(ev.getMessage());
 		}
 	}
 	
@@ -124,10 +125,13 @@ public class ProfessorMB implements Serializable {
 
 			Message.info("Professor removido com sucesso");
 
-		} catch (ProfessorException e) {
-
-			Message.erro(e.getMessage());
-		}finally {
+		} catch (RemoverException er) {
+			Message.erro(er.getMessage());
+			
+		} catch (ValidationException ev) {
+			Message.erro(ev.getMessage());
+			
+		} finally {
 			limparFormulario();
 		}
 	}

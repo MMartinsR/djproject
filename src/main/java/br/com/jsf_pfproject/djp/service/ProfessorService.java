@@ -6,7 +6,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.jsf_pfproject.djp.dao.DAO;
-import br.com.jsf_pfproject.djp.exception.ProfessorException;
+import br.com.jsf_pfproject.djp.exception.RemoverException;
+import br.com.jsf_pfproject.djp.exception.ValidationException;
 import br.com.jsf_pfproject.djp.model.Professor;
 import br.com.jsf_pfproject.djp.utility.ValidationUtil;
 
@@ -27,11 +28,8 @@ public class ProfessorService implements Serializable {
 	public void salvar(Professor professor) {
 
 
-		if(!ValidationUtil.dataNascimentoValida
-				(professor.getDataNascimento())) {
-			
-			throw new ProfessorException("Data de nascimento inválida");
-
+		if(!ValidationUtil.dataNascimentoValida(professor.getDataNascimento())) {			
+			throw new ValidationException("Data de nascimento inválida");
 		}
 		
 		profDao.salvarAtualizar(professor);
@@ -40,19 +38,27 @@ public class ProfessorService implements Serializable {
 
 	public void remover(Professor professor) {
 		
+		if (professor.getId() == null) {
+			throw new RemoverException("Não existe professor com esses parâmetros");
+		}
+		
 		if (professor.getAgendamentosProfessor() != null && !professor.getAgendamentosProfessor().isEmpty()) {
-			throw new ProfessorException("Não é possível deletar um professor que possui agendamentos.");
+			throw new ValidationException("Não é possível deletar um professor que possui agendamentos.");
 		}
 		
 		profDao.remover(Professor.class, professor.getId());
 	}
 
 	public List<Professor> listarTodos() {
+		
 		return profDao.buscarTodos(Professor.class);
 	}
 	
 	public Professor buscarPorId(Professor professor) {
 		
+		if (professor.getId() == null) {
+			throw new RemoverException("Não existe um professor com esses parâmetros");		
+		}
 		return profDao.buscarPorId(Professor.class, professor.getId());
 	}
 

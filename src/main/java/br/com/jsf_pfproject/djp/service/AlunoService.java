@@ -6,7 +6,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.jsf_pfproject.djp.dao.DAO;
-import br.com.jsf_pfproject.djp.exception.AlunoException;
+import br.com.jsf_pfproject.djp.exception.RemoverException;
+import br.com.jsf_pfproject.djp.exception.ValidationException;
 import br.com.jsf_pfproject.djp.model.Aluno;
 import br.com.jsf_pfproject.djp.utility.ValidationUtil;
 
@@ -25,20 +26,24 @@ public class AlunoService implements Serializable{
 	private DAO<Aluno> alunoDao;
 
 
-	public void salvar(Aluno aluno) throws AlunoException{
-		
-		if(!ValidationUtil.dataNascimentoValida(aluno.getDataNascimento())) {		
-			throw new AlunoException("Data de nascimento inválida");
-		}
+	public void salvar(Aluno aluno) {
 
+		if(!ValidationUtil.dataNascimentoValida(aluno.getDataNascimento())) {		
+			throw new ValidationException("Data de nascimento inválida");
+		}
 
 		alunoDao.salvarAtualizar(aluno);
 
 	}
 
-	public void remover(Aluno aluno) throws AlunoException{
+	public void remover(Aluno aluno) {
+		
+		if (aluno.getId() == null) {
+			throw new RemoverException("Não existe aluno com esses parâmetros");
+		}
+		
 		if (aluno.getAgendamentosAluno() != null && !aluno.getAgendamentosAluno().isEmpty()) {
-			throw new AlunoException("Não é possível deletar um aluno que possui agendamentos.");
+			throw new ValidationException("Não é possível deletar um aluno que possui agendamentos.");
 		}
 		alunoDao.remover(Aluno.class, aluno.getId());
 	}

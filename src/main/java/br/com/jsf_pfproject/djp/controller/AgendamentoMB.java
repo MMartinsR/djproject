@@ -8,7 +8,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.jsf_pfproject.djp.exception.AgendamentoException;
+import br.com.jsf_pfproject.djp.exception.RemoverException;
+import br.com.jsf_pfproject.djp.exception.ValidationException;
 import br.com.jsf_pfproject.djp.model.Agendamento;
 import br.com.jsf_pfproject.djp.model.Aluno;
 import br.com.jsf_pfproject.djp.model.Professor;
@@ -148,16 +149,15 @@ public class AgendamentoMB implements Serializable {
 		System.out.print(agendamento.getDataAgendamento().toString());
 		
 		
-		try {		
-			
+		try {			
 			agendamentoService.salvar(agendamento);
 			limparFormulario();
 			carregar();
 
 			Message.info("Agendamento salvo com sucesso");
 
-		} catch (AgendamentoException e) {
-			Message.erro(e.getMessage());
+		} catch (ValidationException ev) {
+			Message.erro(ev.getMessage());
 		}finally {
 			carregar();
 		}
@@ -193,9 +193,9 @@ public class AgendamentoMB implements Serializable {
 
 			Message.info("Agendamento removido com sucesso");
 
-		} catch (AgendamentoException e) {
+		} catch (RemoverException er) {
 
-			Message.erro(e.getMessage());
+			Message.erro(er.getMessage());
 		}finally {
 			carregar();
 		}
