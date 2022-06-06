@@ -39,6 +39,11 @@ public class ProfessorService implements Serializable {
 	}
 
 	public void remover(Professor professor) {
+		
+		if (professor.getAgendamentosProfessor() != null && !professor.getAgendamentosProfessor().isEmpty()) {
+			throw new ProfessorException("Não é possível deletar um professor que possui agendamentos.");
+		}
+		
 		profDao.remover(Professor.class, professor.getId());
 	}
 

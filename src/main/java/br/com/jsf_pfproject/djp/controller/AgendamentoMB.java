@@ -158,6 +158,8 @@ public class AgendamentoMB implements Serializable {
 
 		} catch (AgendamentoException e) {
 			Message.erro(e.getMessage());
+		}finally {
+			carregar();
 		}
 	}
 	
@@ -194,6 +196,8 @@ public class AgendamentoMB implements Serializable {
 		} catch (AgendamentoException e) {
 
 			Message.erro(e.getMessage());
+		}finally {
+			carregar();
 		}
 	}
 

@@ -47,14 +47,9 @@
 					</p:inputMask>
 
 					<p:outputLabel value="Matrícula" for="matricula"/>
-					<p:inputText label="Matricula" required="true"
-						value="#{alunoBean.aluno.matricula}" size="10"
-						placeholder="ex: NHT784" maxlength="6"
-						requiredMessage="Informe a matricula" 
-						id="matricula" validatorMessage="A matricula deve ter 6 caracteres e ser composta 
-						por 3 letras maiusculas e 3 números.">
-						<f:validateLength minimum="6"/>
-						<f:validateRegex pattern="([A-Z]{3})([0-9]{3})"/>
+					<p:inputText label="Matricula" 
+						value="#{alunoBean.aluno.id}" size="10" disabled="true"
+						id="matricula">
 						</p:inputText>
 
 					<p:outputLabel value="E-mail " for="email"/>
@@ -86,7 +81,7 @@
 			</p:column>
 
 			<p:column headerText="Matrícula" width="200">
-				<p:outputLabel value="#{aluno.matricula}" />
+				<p:outputLabel value="#{aluno.id}" />
 			</p:column>
 
 			<p:column headerText="E-mail" width="200">

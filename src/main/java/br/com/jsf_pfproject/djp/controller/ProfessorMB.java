@@ -127,6 +127,8 @@ public class ProfessorMB implements Serializable {
 		} catch (ProfessorException e) {
 
 			Message.erro(e.getMessage());
+		}finally {
+			limparFormulario();
 		}
 	}
 

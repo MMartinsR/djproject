@@ -128,6 +128,8 @@ public class AlunoMB implements Serializable {
 		} catch (AlunoException e) {
 
 			Message.erro(e.getMessage());
+		}finally {
+			limparFormulario();
 		}
 	}
 

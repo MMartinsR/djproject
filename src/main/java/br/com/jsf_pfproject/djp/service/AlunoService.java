@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import br.com.jsf_pfproject.djp.dao.AlunoDAO;
 import br.com.jsf_pfproject.djp.dao.DAO;
 import br.com.jsf_pfproject.djp.exception.AlunoException;
 import br.com.jsf_pfproject.djp.model.Aluno;
@@ -24,26 +23,23 @@ public class AlunoService implements Serializable{
 
 	@Inject
 	private DAO<Aluno> alunoDao;
-	@Inject
-	private AlunoDAO alunoDAO;
+
 
 	public void salvar(Aluno aluno) throws AlunoException{
 		
 		if(!ValidationUtil.dataNascimentoValida(aluno.getDataNascimento())) {		
 			throw new AlunoException("Data de nascimento inválida");
 		}
-		
-		Aluno alunoTemp = alunoDao.buscarPorId(Aluno.class, aluno.getId());
-		
-		if (alunoTemp.getId() == null && alunoDAO.existeMatricula(aluno.getMatricula())) {
-			throw new AlunoException("Esta matrícula já existe");
-		}
+
 
 		alunoDao.salvarAtualizar(aluno);
 
 	}
 
 	public void remover(Aluno aluno) throws AlunoException{
+		if (aluno.getAgendamentosAluno() != null && !aluno.getAgendamentosAluno().isEmpty()) {
+			throw new AlunoException("Não é possível deletar um aluno que possui agendamentos.");
+		}
 		alunoDao.remover(Aluno.class, aluno.getId());
 	}
 

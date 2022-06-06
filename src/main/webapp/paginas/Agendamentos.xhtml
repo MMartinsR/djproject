@@ -65,7 +65,7 @@
 						requiredMessage="Informe o aluno" autoWidth="true" filter="true">
 						<f:selectItem itemLabel="Selecionar..." itemValue="" />
 						<f:selectItems value="#{agendamentoBean.alunos}" var="a"
-							itemValue="#{a}" itemLabel="#{a.matricula} - #{a.nome}" />
+							itemValue="#{a}" itemLabel="#{a.id} - #{a.nome}" />
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Descrição " for="descricao" />
@@ -108,7 +108,7 @@
 			</p:column>
 
 			<p:column headerText="Matricula" width="200">
-				<p:outputLabel value="#{agendamento.aluno.matricula}" />
+				<p:outputLabel value="#{agendamento.aluno.id}" />
 			</p:column>
 
 			<p:column headerText="Observações" width="200">
