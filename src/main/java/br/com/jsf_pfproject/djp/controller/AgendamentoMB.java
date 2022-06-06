@@ -46,18 +46,31 @@ public class AgendamentoMB implements Serializable {
 	private List<Agendamento> agendamentos;
 	private List<Professor> professores;
 	private List<Aluno> alunos;
+
 	
 	/**
 	 * Carrega para a view Agendamento.xhtml os dados do banco.
 	 * 
 	 * professores - selectOneMenu
-	 * agendamentos - dataTable
 	 * alunos - selectOneMenu
+	 * agendamentos - dataTable
+	 * 		Foi criado um clone do objeto para desvincular do objeto salvo em cache, e possibilitar a 
+	 *      validação da data/hora e professor que é feita quando é preciso atualizar o dado. 
 	 */
 	@PostConstruct
 	public void carregar() {
 		this.professores = professorService.listarTodos();
-		this.agendamentos = agendamentoService.listarTodos();
+		this.agendamentos = agendamentoService.listarTodos().stream().map(a -> {
+			Agendamento agendTemp = new Agendamento();
+			agendTemp.setAssunto(a.getAssunto());
+			agendTemp.setId(a.getId());
+			agendTemp.setAluno(a.getAluno());
+			agendTemp.setDataAgendamento(a.getDataAgendamento());
+			agendTemp.setObservacoes(a.getObservacoes());
+			agendTemp.setProfessor(a.getProfessor());
+			
+			return agendTemp;
+		}).toList();
 		this.alunos = alunoService.listarTodos();
 	}
 
@@ -132,13 +145,16 @@ public class AgendamentoMB implements Serializable {
 	 */
 	public void novoAgendamento() {
 		
+		System.out.print(agendamento.getDataAgendamento().toString());
+		
+		
 		try {		
 			
 			agendamentoService.salvar(agendamento);
 			limparFormulario();
 			carregar();
 
-			Message.info("Novo agendamento salvo com sucesso");
+			Message.info("Agendamento salvo com sucesso");
 
 		} catch (AgendamentoException e) {
 			Message.erro(e.getMessage());

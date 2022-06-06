@@ -44,6 +44,7 @@ public class AgendamentoService implements Serializable {
 			if (!agendamentoTemp.getDataAgendamento().equals(agendamento.getDataAgendamento())
 					|| !agendamentoTemp.getProfessor().getId().equals(agendamento.getProfessor().getId())) {
 				
+				
 				validaDataDuplicada(agendamento);
 			}
 			

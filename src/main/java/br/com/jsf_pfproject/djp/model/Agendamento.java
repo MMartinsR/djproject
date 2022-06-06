@@ -55,6 +55,19 @@ public class Agendamento implements Serializable, Base {
 	@ManyToOne
 	@JoinColumn(name = "aluno_id")
 	private Aluno aluno;
+	
+//	
+//
+//	public Agendamento() {
+//		Agendamento agendTemp = new Agendamento();
+//		agendTemp.setAssunto(a.getAssunto());
+//		agendTemp.setId(a.getId());
+//		agendTemp.setAluno(a.getAluno());
+//		agendTemp.setDataAgendamento(a.getDataAgendamento());
+//		agendTemp.setObservacoes(a.getObservacoes());
+//		agendTemp.setProfessor(a.getProfessor());
+//		
+//	}
 
 	public Long getId() {
 		return id;
