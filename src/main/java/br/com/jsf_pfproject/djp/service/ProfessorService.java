@@ -54,12 +54,6 @@ public class ProfessorService implements Serializable {
 		return profDao.buscarTodos(Professor.class);
 	}
 	
-	public Professor buscarPorId(Professor professor) {
-		
-		if (professor.getId() == null) {
-			throw new RemoverException("Não existe um professor com esses parâmetros");		
-		}
-		return profDao.buscarPorId(Professor.class, professor.getId());
-	}
+
 
 }
