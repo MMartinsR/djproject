@@ -68,7 +68,7 @@
 							itemValue="#{a}" itemLabel="#{a.id} - #{a.nome}" />
 					</p:selectOneMenu>
 
-					<p:outputLabel value="Descrição " for="descricao" />
+					<p:outputLabel value="Descrição" for="descricao" />
 					<p:inputTextarea value="#{agendamentoBean.agendamento.observacoes}"
 						cols="22" rows="5" maxlength="100" placeholder="Observações"
 						counter="saida" counterTemplate="{0} caracteres restante(s)"
@@ -88,7 +88,8 @@
 		</div>
 
 		<p:dataTable value="#{agendamentoBean.agendamentos}" var="agendamento"
-			id="tabela" paginator="true" rows="5" style="margin-top: 10px">
+			id="tabela" paginator="true" rows="5" style="margin-top: 10px" 
+			emptyMessage="Não existem registros">
 			<p:column headerText="Assunto">
 				<p:outputLabel value="#{agendamento.assunto}" />
 			</p:column>

@@ -72,7 +72,8 @@
 		</div>
 
 		<p:dataTable value="#{professorBean.professores}" var="professor"
-			id="tabela" paginator="true" rows="5" style="margin-top: 10px">
+			id="tabela" paginator="true" rows="5" style="margin-top: 10px"
+			emptyMessage="Não existem registros">
 			<p:column headerText="Nome">
 				<p:outputLabel value="#{professor.nome}" />
 			</p:column>

@@ -70,7 +70,6 @@ public class AgendamentoService implements Serializable {
 		return agendamentoDao.buscarTodos(Agendamento.class);
 	}
 
-
 	/**
 	 * Validação da existência de um agendamento com os mesmos parâmetros data/hora,
 	 * professor.

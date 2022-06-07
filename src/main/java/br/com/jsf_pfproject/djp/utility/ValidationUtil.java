@@ -39,6 +39,10 @@ public class ValidationUtil {
 	// Valida se a data de Agendamento é anterior a data atual
 	public static boolean dataAgendamentoValida(Date dataAgendamento) {
 		
+		if (dataAgendamento == null) {
+			return false;
+		}
+		
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(dataAgendamento);
 		

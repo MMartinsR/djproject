@@ -45,10 +45,5 @@ class AgendamentoServiceTest {
 		assertEquals(true, ValidationUtil.dataNascimentoValida(date));
 
 	}
-	
-	@Test
-	void dataDuplicadaDeveSerValida() {
-		
-	}
 
 }
